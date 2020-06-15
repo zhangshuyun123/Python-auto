@@ -27,11 +27,11 @@ def connect_socket(host, port, listname, app_name):
 
 
 def select_debug():
-    connect = pymysql.connect(host='172.20.47.57', port=3357, user='ro_all_db', password='9s81SI.#X0',
-                              database='yonyou_cloud')
+    connect = pymysql.connect(host='', port=, user='', password='',
+                              database='')
     # print("mysql connect successful")
     cur = connect.cursor()
-    daily_debug_sql = "select m.app_name, m.app_id from app_manage m, app_service_debug d where m.app_id = d.app_id and d.dr = 0 and m.dr = 0 and m.parent like '/13569/%' and m.app_type='daily'"
+    daily_debug_sql = "select m.app_name'"
     cur.execute(daily_debug_sql)
     daily_res = eval(str(cur.fetchall()))
     for i in range(len(daily_res)):
@@ -48,14 +48,14 @@ def select_debug():
         connect_socket(id_host, id_port, daily_debug_list, app_name)
     print("日常 debug 应用为：", daily_debug_list)
 
-    pre_debug_sql = "select m.app_name, m.app_id from app_manage m, app_service_debug d where m.app_id = d.app_id and d.dr = 0 and m.dr = 0 and m.parent like '/13569/%' and m.app_type='pre'"
+    pre_debug_sql = "select m.app_name, "
     cur.execute(pre_debug_sql)
     pre_res = eval(str(cur.fetchall()))
     for i in range(len(pre_res)):
         pre_app_id = pre_res[i][1]
         pre_app_name = pre_res[i][0]
         # print(app_id)
-        host_sql = "select external_ips,port from app_service_debug where app_id='" + "%s" % pre_app_id + "'"
+        host_sql = "select external_ips,app_id='" + "%s" % pre_app_id + "'"
         cur.execute(host_sql)
         pre_debug_res = eval(str(cur.fetchall()))
         pre_id_host = pre_debug_res[0][0]
@@ -64,14 +64,14 @@ def select_debug():
         connect_socket(pre_id_host, pre_id_port, pre_debug_list, pre_app_name)
     print("预发 debug 应用为：", pre_debug_list)
 
-    online_debug_sql = "select m.app_name, m.app_id from app_manage m, app_service_debug d where m.app_id = d.app_id and d.dr = 0 and m.dr = 0 and m.parent like '/13569/%' and m.app_type='online'"
+    online_debug_sql = "select m.app_name"
     cur.execute(online_debug_sql)
     online_res = eval(str(cur.fetchall()))
     for i in range(len(online_res)):
         online_app_id = online_res[i][1]
         online_app_name = online_res[i][0]
         # print(app_id)
-        online_host_sql = "select external_ips,port from app_service_debug where app_id='" + "%s" % online_app_id + "'"
+        online_host_sql = "select app_id='" + "%s" % online_app_id + "'"
         cur.execute(online_host_sql)
         online_debug_res = eval(str(cur.fetchall()))
         online_id_host = online_debug_res[0][0]
@@ -91,7 +91,7 @@ def sendmessage():
     paramap = base64.b64encode(
         hmac.new(yonzoneApiSecret.encode('utf-8'), message.encode('utf-8'), digestmod=hashlib.sha256).digest())
     signature = urllib.parse.quote(paramap)
-    access_token_url = 'https://open.yonyoucloud.com/open-auth/selfAppAuth/getAccessToken?appKey=%s&timestamp=%s&signature=%s' % (
+    access_token_url = 'https://mestamp=%s&signature=%s' % (
     yonzoneApiAppKey, timestamp, signature)
     #print(access_token_url)
 
@@ -119,7 +119,7 @@ def sendmessage():
 %s
     """%(len(online_debug_list), online_debug_list, len(pre_debug_list), pre_debug_list, len(daily_debug_list), daily_debug_list)
     # print(sendmessage)
-    base_url = 'https://api.diwork.com/diwork/uspace/group/message_muc_text?'
+    base_url = 'https://api.dpacmessage_muc_text?'
     params = {
         'access_token': accesstoken
     }
